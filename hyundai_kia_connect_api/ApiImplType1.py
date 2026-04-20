@@ -340,10 +340,12 @@ class ApiImplType1(ApiImpl):
         )
 
         vehicle.is_locked = (
-            vehicle.front_left_door_is_locked
-            and vehicle.front_right_door_is_locked
-            and vehicle.back_left_door_is_locked
-            and vehicle.back_right_door_is_locked
+            if all(v is not None for v in [vehicle.front_left_door_is_locked, vehicle.front_right_door_is_locked, vehicle.back_left_door_is_locked, vehicle.back_right_door_is_locked]):
+               vehicle.front_left_door_is_locked 
+               and vehicle.front_right_door_is_locked 
+               and vehicle.back_left_door_is_locked 
+               and vehicle.back_right_door_is_locked
+            else None
         )
 
         vehicle.hood_is_open = get_child_value(state, "Body.Hood.Open")
